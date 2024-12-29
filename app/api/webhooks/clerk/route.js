@@ -59,7 +59,7 @@ export async function POST(req) {
   // Example: saveUserDataToDatabase(evt.data);
   if (eventType === 'user.created') {
     try {
-      await addDocument('workers', {...eventData, status: active});
+      await addDocument('workers', {...eventData, status: 'active'});
     } catch (error) {
       console.error('Error handling user.created event:', error);
       return NextResponse.json({ error: error.message }, { status: 500 });
