@@ -1,0 +1,141 @@
+:root {
+    --body-bg: #ffffff;
+    --foreground: #FFFFFF;
+  
+    --dashNav-bg: #EEF0FF;
+  
+    --input-field: #F6F6F6;
+  
+    --dash-clr1: #F5F9FF;
+    --dash-clr2: #FFEFE4;
+    --dash-clr3:  #FEEFFF;
+    --dash-clr4:  #FFFFF5;
+  
+    --nav-height: 80px;
+    --nav-active-border-clr:#6B8AFF;
+    --nav-active-bg-clr: #D8DEFF;
+
+    --headerBar-clr: #D1D7FE;
+
+    --pending-clr: #E2E2E2;
+    --declined-clr: #FFBEBE;
+    --active-clr: #FFEBB2;
+    --completed-clr: #D8FEA3;
+
+    --gen-border-radius: 10px;
+  
+    --blur-clr: #0060FA;
+    --inactive-grey-clr: #494949;
+  
+    --gen-border-clr: #D0D0D0;
+  
+    --large-inline-padding: 8%;
+    --small-inline-padding: 5%;
+  
+    --orange-text-clr: #EE9F0C;
+    --dark-text-clr: #000000;
+  
+    --font-urb: var(--font-u);
+  
+    --primary-gradient-clr: linear-gradient(180deg, #B4079D 0%, #FFCC70 146.9%);
+    --plum-gradient-clr: linear-gradient(107.33deg, #D1D4FF 70.75%, rgba(143, 125, 153, 0.3) 98.12%);
+
+    /*** VOLARA WEB-APP VARIABLES ***/
+    --light-darkbg-clr: #252220;
+    --darkbg-clr: #110903;
+}
+
+
+.signInCntn{
+    width: 100%;
+    padding-block: calc(var(--nav-height + 30px)) 0px;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 30px;
+    grid-template-columns: 1fr 1fr;
+    background-color: var(--darkbg-clr);
+}
+
+.theNav{
+    display: flex;
+    height: var(--nav-height);
+    width: 100%;
+    background-color: var(--light-darkbg-clr);
+    align-items: center;
+    justify-content: center;
+    padding-block: 15px 5px;
+
+    position: fixed;
+    top: 0;
+    left: 0;
+}
+
+.theNav a img{
+    /* width: 100%; */
+    height: calc(var(--nav-height)  - (2 * 15px));
+    object-fit: contain;
+    object-position: center;
+}
+
+.signInCntn .cl-internal-1dauvpw{
+    display: none;
+}
+
+.signInCntn input{
+    border: 1px solid #858585 !important;
+    background-color: #15110f5f !important;
+}
+/* .signInCntn .cl-signUp-root, .signInCntn .cl-signUp-start{
+    width: 100% !important;
+    box-shadow: none !important;
+}
+.signInCntn .cl-signUp-root > *, .signInCntn .cl-signIn-root > *{
+    width: 100% !important;
+    box-shadow: none !important;
+}
+.signInCntn .cl-signIn-root , .signInCntn .cl-signIn-start{
+    width: 100% !important;
+    box-shadow: none !important;
+} */
+
+@media screen and (max-width: 600px) {
+    .signInCntn .left{
+        display: none;
+    }
+
+    .theNav{
+        height: var(--nav-height);
+    }
+
+    .signInCntn{
+        width: 100%;
+        padding: 0px 0px;
+        padding-top: 80px;
+        display: flex;
+        gap: 30px;
+    }
+
+    .signInCntn {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .signInCntn input{
+        border: 1px solid #858585 !important;
+    }
+
+    .signInCntn .cl-signUp-root, .signInCntn .cl-signIn-root{
+        margin: 0 !important;
+        padding: 0 !important;
+        display: grid;
+        place-items: center;
+    }
+}
+
+
+
