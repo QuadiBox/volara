@@ -36,7 +36,8 @@ const Todos = () => {
             </div>
 
             <div className="unitTodoCard">
-                
+                <div className="center"></div>
+                <a href="http://" target="_blank" rel="noopener noreferrer"></a>
             </div>
         </div>
     )
