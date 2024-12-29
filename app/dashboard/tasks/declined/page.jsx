@@ -2,7 +2,7 @@
 import { onSnapshotWithoutCondition, updateDocument } from "@/app/db/firestoreService";
 import { useState, useEffect } from "react"
 
-const page = () => {
+const Page = () => {
     const [totalNum, setTotalNum] = useState(0);
 
     // this is to show the amount of results increment per page
@@ -288,4 +288,4 @@ const page = () => {
     )
 }
 
-export default page
+export default Page

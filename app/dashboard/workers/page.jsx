@@ -3,7 +3,7 @@ import { onSnapshotWithoutCondition, updateDocument } from "@/app/db/firestoreSe
 import { useState, useEffect } from "react"
 // import { useUser } from "@clerk/nextjs";
 
-const page = () => {
+const Page = () => {
     const [totalNum, setTotalNum] = useState(0);
 
     // this is to show the amount of results increment per page
@@ -117,7 +117,7 @@ const page = () => {
                                 <p>
                                     {
                                         elem?.interactions?.filter((unit, idx) => idx <= 4).map((elem, idx) => (
-                                            <img src={`/${findMatchingRequest(elem)?.platform}.png`} alt={`${findMatchingRequest(elem)?.platform}`} />
+                                            <img key={`platforms3_${idx}`} src={`/${findMatchingRequest(elem)?.platform}.png`} alt={`${findMatchingRequest(elem)?.platform}`} />
                                         ))
                                     }
                                 </p>
@@ -242,4 +242,4 @@ const page = () => {
     )
 }
 
-export default page
+export default Page

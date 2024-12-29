@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useState, useEffect } from "react"
 // import { useUser } from "@clerk/nextjs";
 
-const page = () => {
+const Page = () => {
     const [totalNum, setTotalNum] = useState(0);
 
     // this is to show the amount of results increment per page
@@ -307,4 +307,4 @@ const page = () => {
     )
 }
 
-export default page
+export default Page
