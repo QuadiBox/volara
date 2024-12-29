@@ -61,8 +61,8 @@ export async function POST(req) {
     try {
       await addDocument('workers', {...eventData, status: active});
     } catch (error) {
-      console.error('Error handling user.created event:', err);
-      return NextResponse.json({ error: 'Error processing user.created event' }, { status: 500 });
+      console.error('Error handling user.created event:', error);
+      return NextResponse.json({ error: error.message }, { status: 500 });
     }
   }
 
