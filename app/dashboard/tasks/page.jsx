@@ -26,8 +26,7 @@ const Page = () => {
     // const [showCount, setshowCount] = useState(3);
 
     // const { isLoaded, isSignedIn, user } = useUser();
-
-    const filteredList = requests.filter((elem, idx) => idx <= currNum);
+    const filteredList = requests.filter((elem, idx) => idx <= currNum && elem?.locationData?.country !== undefined && elem?.locationData?.country !== null);
 
 
     useEffect(() => {
@@ -35,8 +34,9 @@ const Page = () => {
         const fetchRequests = onSnapshotWithoutCondition(
             'requests',
             (documents) => {
-                setRequests(documents)
-                setTotalNum(documents?.length);
+                const firstFilter = documents?.filter((elem) => elem?.locationData?.country !== undefined && elem?.locationData?.country !== null)
+                setRequests(firstFilter)
+                setTotalNum(firstFilter?.length);
             }
         )
       
@@ -251,20 +251,11 @@ const Page = () => {
                                             )
                                         }
                                         {
-                                            widgetData?.links?.views !== '' && (
+                                            widgetData?.links?.shares !== '' && (
                                                 <div className="requestState">
-                                                    <p>{widgetData?.links?.views}</p>
+                                                    <p>{widgetData?.links?.shares}</p>
 
-                                                    <a href={`${widgetData?.links?.views.startsWith('https://') ? widgetData?.links?.views : `https://${widgetData?.links?.views}` }`} target="_blank"> <i className="icofont-link"></i> Open</a>
-                                                </div>
-                                            )
-                                        }
-                                        {
-                                            widgetData?.links?.saves !== '' && (
-                                                <div className="requestState">
-                                                    <p>{widgetData?.links?.saves}</p>
-
-                                                    <a href={`${widgetData?.links?.saves.startsWith('https://') ? widgetData?.links?.saves : `https://${widgetData?.links?.saves}` }`} target="_blank"> <i className="icofont-link"></i> Open</a>
+                                                    <a href={`${widgetData?.links?.shares.startsWith('https://') ? widgetData?.links?.shares : `https://${widgetData?.links?.shares}` }`} target="_blank"> <i className="icofont-link"></i> Open</a>
                                                 </div>
                                             )
                                         }
@@ -274,15 +265,6 @@ const Page = () => {
                                                     <p>{widgetData?.links?.follows}</p>
 
                                                     <a href={`${widgetData?.links?.follows.startsWith('https://') ? widgetData?.links?.follows : `https://${widgetData?.links?.follows}` }`} target="_blank"> <i className="icofont-link"></i> Open</a>
-                                                </div>
-                                            )
-                                        }
-                                        {
-                                            widgetData?.links?.subscribers !== '' && (
-                                                <div className="requestState">
-                                                    <p>{widgetData?.links?.subscribers}</p>
-
-                                                    <a href={`${widgetData?.links?.subscribers.startsWith('https://') ? widgetData?.links?.subscribers : `https://${widgetData?.links?.subscribers}` }`} target="_blank"> <i className="icofont-link"></i> Open</a>
                                                 </div>
                                             )
                                         }

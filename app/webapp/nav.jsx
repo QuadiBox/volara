@@ -26,7 +26,7 @@ const Nav = ({ type }) => {
             <Link href={"/webapp/airdrop"} className='unitVolaraNavLink'>
                 {
                     type === 'airdrop' ? (
-                        <img src="/airdrop_active.png" alt="airdrop icon" />
+                        <img src="/airdrop.png" alt="airdrop icon" />
                     ) : (
                         <img src="/airdrop.png" alt="airdrop icon" />
                     )

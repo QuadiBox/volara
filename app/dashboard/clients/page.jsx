@@ -35,7 +35,7 @@ const Page = () => {
         const fetchRequests = onSnapshotWithoutCondition(
             'requests',
             (documents) => {
-                setRequests(documents)
+                setRequests(documents?.filter((elem) => elem?.locationData?.country !== undefined && elem?.locationData?.country !== null))
             }
         )
       
@@ -101,8 +101,8 @@ const Page = () => {
                                 <p>{idx+1}</p>
                                 <p>{elem?.first_name} {elem?.last_name}</p>
                                 <p>{elem?.email_addresses[0].email_address}</p>
-                                <p className='planType'>{requests.filter((element) => element?.u_id === elem?.id)[0]?.plan}</p>
-                                <p className={`planType capital ${requests.filter((element) => element?.u_id === elem?.id)[0]?.status}`}>{requests.filter((element) => element?.u_id === elem?.id)[0]?.status}</p>
+                                <p className='planType'>{`${requests.filter((element) => element?.u_id === elem?.id)[0]?.plan}`}</p>
+                                <p className={`planType capital ${requests.filter((element) => element?.u_id === elem?.id)[0]?.status}`}>{`${requests.filter((element) => element?.u_id === elem?.id)[0]?.status}`}</p>
                                 <p>
                                     {
                                         requests.filter((element) => element?.u_id === elem?.id).filter((unit, idx) => idx <= 4).map((elem, idx) => (
@@ -121,7 +121,7 @@ const Page = () => {
             </div>
 
             <div className="paginationCntn">
-                <p>{currNum - (incCount - 1)} - {currNum} of {totalNum} </p>
+                <p>{currNum - (incCount - 1)} - {currNum > totalNum ? totalNum : currNum} of {totalNum} </p>
 
                 {
                     totalNum > incCount && (
@@ -180,18 +180,18 @@ const Page = () => {
                                 <div className="unitWidgetCntn">
                                     <div className="upndownCntn">
                                         <p>eMail</p>
-                                        <h3>{widgetData?.email_addresses[0].email_address}</h3>
+                                        <h3>{`${widgetData?.email_addresses[0].email_address}`}</h3>
                                     </div>
                                     <div className="upndownCntn">
                                         <p>Phone Number</p>
-                                        <h3>{widgetData?.phone}</h3>
+                                        <h3>{`${widgetData?.phone_numbers[0]}` }</h3>
                                     </div>
                                 </div>
                                 <div className="unitWidgetCntn">
                                     <div className={`unitPlanType`}>
                                         <div className="right">
                                             <p>Selected Plan  <img className="shippingImg" src="/shipping.png" alt="/" /></p>
-                                            <h3>{requests.filter((element) => element?.u_id === widgetData?.id)[0]?.plan} Plan</h3>
+                                            <h3>{`${requests.filter((element) => element?.u_id === widgetData?.id)[0]?.plan}`} Plan</h3>
                                             <p>Best for small business</p>
 
                                             <h2>$<b>{requests?.filter((element) => element?.u_id === widgetData?.id)[0]?.amount}</b>/Platform</h2>
@@ -205,7 +205,7 @@ const Page = () => {
                                             <div className="platformList">
                                                 {
                                                     requests.filter((element) => element?.u_id === widgetData?.id).filter((unit, idx) => idx <= 4).map((elem, idx) => (
-                                                        <img key={`platforms2_${idx}`} src={`/${elem?.platform}.png`} alt={`${elem?.platform}`} />
+                                                        <img key={`platforms2_${idx}`} src={`/${elem?.platform ? elem?.platform : 'null'}.png`} alt={`${elem?.platform}`} />
                                                     ))
                                                 }
                                             </div>
@@ -217,7 +217,7 @@ const Page = () => {
                                     <div className="requestState">
                                         <p>Request Status:</p>
 
-                                        <span className={`${requests.filter((element) => element?.u_id === widgetData?.id)[0]?.status}`}>{requests.filter((element) => element?.u_id === widgetData?.id)[0]?.status}</span>
+                                        <span className={`${requests.filter((element) => element?.u_id === widgetData?.id)[0]?.status}`}>{`${requests.filter((element) => element?.u_id === widgetData?.id)[0]?.status}`}</span>
                                     </div>
                                 </div>
                                 <div className="unitWidgetCntn">
@@ -225,7 +225,7 @@ const Page = () => {
                                         <p>Engagement links</p>
 
                                         {
-                                            requests.filter((element) => element?.u_id === widgetData?.id)[0]?.links?.likes !== '' && (
+                                            requests.filter((element) => element?.u_id === widgetData?.id)[0]?.links?.likes  && (
                                                 <div className="requestState">
                                                     <p>{requests.filter((element) => element?.u_id === widgetData?.id)[0]?.links?.likes}</p>
 
@@ -234,7 +234,7 @@ const Page = () => {
                                             )
                                         }
                                         {
-                                            requests.filter((element) => element?.u_id === widgetData?.id)[0]?.links?.reposts !== '' && (
+                                            requests.filter((element) => element?.u_id === widgetData?.id)[0]?.links?.reposts  && (
                                                 <div className="requestState">
                                                     <p>{requests.filter((element) => element?.u_id === widgetData?.id)[0]?.links?.reposts}</p>
 
@@ -243,7 +243,7 @@ const Page = () => {
                                             )
                                         }
                                         {
-                                            requests.filter((element) => element?.u_id === widgetData?.id)[0]?.links?.comments !== '' && (
+                                            requests.filter((element) => element?.u_id === widgetData?.id)[0]?.links?.comments  && (
                                                 <div className="requestState">
                                                     <p>{requests.filter((element) => element?.u_id === widgetData?.id)[0]?.links?.comments}</p>
 
@@ -252,38 +252,20 @@ const Page = () => {
                                             )
                                         }
                                         {
-                                            requests.filter((element) => element?.u_id === widgetData?.id)[0]?.links?.views !== '' && (
+                                            requests.filter((element) => element?.u_id === widgetData?.id)[0]?.links?.shares  && (
                                                 <div className="requestState">
-                                                    <p>{requests.filter((element) => element?.u_id === widgetData?.id)[0]?.links?.views}</p>
+                                                    <p>{requests.filter((element) => element?.u_id === widgetData?.id)[0]?.links?.shares}</p>
 
-                                                    <a href={`${requests.filter((element) => element?.u_id === widgetData?.id)[0]?.links?.views.startsWith('https://') ? requests.filter((element) => element?.u_id === widgetData?.id)[0]?.links?.views : `https://${requests.filter((element) => element?.u_id === widgetData?.id)[0]?.links?.views}` }`} target="_blank"> <i className="icofont-link"></i> Open</a>
+                                                    <a href={`${requests.filter((element) => element?.u_id === widgetData?.id)[0]?.links?.shares.startsWith('https://') ? requests.filter((element) => element?.u_id === widgetData?.id)[0]?.links?.shares : `https://${requests.filter((element) => element?.u_id === widgetData?.id)[0]?.links?.shares}` }`} target="_blank"> <i className="icofont-link"></i> Open</a>
                                                 </div>
                                             )
                                         }
                                         {
-                                            requests.filter((element) => element?.u_id === widgetData?.id)[0]?.links?.saves !== '' && (
-                                                <div className="requestState">
-                                                    <p>{requests.filter((element) => element?.u_id === widgetData?.id)[0]?.links?.saves}</p>
-
-                                                    <a href={`${requests.filter((element) => element?.u_id === widgetData?.id)[0]?.links?.saves.startsWith('https://') ? requests.filter((element) => element?.u_id === widgetData?.id)[0]?.links?.saves : `https://${requests.filter((element) => element?.u_id === widgetData?.id)[0]?.links?.saves}` }`} target="_blank"> <i className="icofont-link"></i> Open</a>
-                                                </div>
-                                            )
-                                        }
-                                        {
-                                            requests.filter((element) => element?.u_id === widgetData?.id)[0]?.links?.follows !== '' && (
+                                            requests.filter((element) => element?.u_id === widgetData?.id)[0]?.links?.follows  && (
                                                 <div className="requestState">
                                                     <p>{requests.filter((element) => element?.u_id === widgetData?.id)[0]?.links?.follows}</p>
 
                                                     <a href={`${requests.filter((element) => element?.u_id === widgetData?.id)[0]?.links?.follows.startsWith('https://') ? requests.filter((element) => element?.u_id === widgetData?.id)[0]?.links?.follows : `https://${requests.filter((element) => element?.u_id === widgetData?.id)[0]?.links?.follows}` }`} target="_blank"> <i className="icofont-link"></i> Open</a>
-                                                </div>
-                                            )
-                                        }
-                                        {
-                                            requests.filter((element) => element?.u_id === widgetData?.id)[0]?.links?.subscribers !== '' && (
-                                                <div className="requestState">
-                                                    <p>{requests.filter((element) => element?.u_id === widgetData?.id)[0]?.links?.subscribers}</p>
-
-                                                    <a href={`${requests.filter((element) => element?.u_id === widgetData?.id)[0]?.links?.subscribers.startsWith('https://') ? requests.filter((element) => element?.u_id === widgetData?.id)[0]?.links?.subscribers : `https://${requests.filter((element) => element?.u_id === widgetData?.id)[0]?.links?.subscribers}` }`} target="_blank"> <i className="icofont-link"></i> Open</a>
                                                 </div>
                                             )
                                         }

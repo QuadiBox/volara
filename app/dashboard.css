@@ -22,7 +22,7 @@
     --active-clr: #FFEBB2;
     --completed-clr: #D8FEA3;
 
-    --gen-border-radius: 10px;
+    --gen-border-dash-radius:  10px;
   
     --blur-clr: #0060FA;
     --inactive-grey-clr: #494949;
@@ -49,6 +49,9 @@
     grid-template-columns: 250px 1fr;
     align-items: center;
     /* gap: 30px; */
+}
+.dashboardGrandCntn *{
+    color: var(--dark-text-clr);
 }
 
 .dashboardGrandCntn nav{
@@ -88,7 +91,7 @@
     border: 1px solid transparent;
     color: var(--inactive-grey-clr);
     font-size: 0.9em;
-    border-radius: var(--gen-border-radius);
+    border-radius: var(--gen-border-dash-radius);
 }
 .dashboardGrandCntn nav > .linkList a i{
     color: inherit;
@@ -196,7 +199,7 @@ input[type="search"]::-webkit-search-results-decoration {
     padding-left: 90px;
     background-color: var(--input-field);
     border: 1px solid var(--gen-border-clr);
-    border-radius: var(--gen-border-radius);
+    border-radius: var(--gen-border-dash-radius);
 }
 .dashboardCntn .header .searchBox button{
     position: absolute;
@@ -214,7 +217,7 @@ input[type="search"]::-webkit-search-results-decoration {
     display: flex;
     flex-direction: column;
     border: 1px solid var(--gen-border-clr);
-    border-radius: var(--gen-border-radius);
+    border-radius: var(--gen-border-dash-radius);
     background-color: var(--input-field);
 }
 .dashboardCntn .header .dateTime h2{
@@ -249,7 +252,7 @@ input[type="search"]::-webkit-search-results-decoration {
     height: 100%;
     background-color: var(--input-field);
     border: 1px solid var(--gen-border-clr);
-    border-radius: var(--gen-border-radius);
+    border-radius: var(--gen-border-dash-radius);
     padding: 15px 20px;
     display: flex;
     align-items: center;
@@ -271,7 +274,7 @@ input[type="search"]::-webkit-search-results-decoration {
 .dashmainCntn{
     width: 100%;
     height: 100%;
-    border-radius: var(--gen-border-radius);
+    border-radius: var(--gen-border-dash-radius);
     border: 1px solid var(--gen-border-clr);
     padding: 12px;
     display: grid;
@@ -292,7 +295,7 @@ input[type="search"]::-webkit-search-results-decoration {
     align-items: center;
     justify-content: space-between;
     padding: 15px;
-    border-radius: var(--gen-border-radius);
+    border-radius: var(--gen-border-dash-radius);
     border: 1px solid var(--gen-border-clr);
 }
 .dashmainCntn .toptop .unitStat:nth-of-type(1){
@@ -354,7 +357,7 @@ input[type="search"]::-webkit-search-results-decoration {
     gap: 8px;
     background-color: var(--input-field);
     border: 1px solid var(--gen-border-clr);
-    border-radius: var(--gen-border-radius);
+    border-radius: var(--gen-border-dash-radius);
     padding: 10px 20px;
     position: relative;
 }
@@ -389,7 +392,7 @@ input[type="search"]::-webkit-search-results-decoration {
     width: 100%;
     background-color: var(--input-field);
     border: 1px solid var(--gen-border-clr);
-    border-radius: var(--gen-border-radius);
+    border-radius: var(--gen-border-dash-radius);
     display: grid;
     grid-template-rows: max-content 1fr;
     overflow: hidden;
@@ -517,7 +520,7 @@ input[type="search"]::-webkit-search-results-decoration {
     gap: 10px;
     align-items: center;
     height: 50px;
-    border-radius: var(--gen-border-radius);
+    border-radius: var(--gen-border-dash-radius);
     background-color: var(--headerBar-clr);
     padding: 5px 20px;
 }
@@ -555,7 +558,7 @@ input[type="search"]::-webkit-search-results-decoration {
     gap: 10px;
     align-items: center;
     height: 58px;
-    border-radius: var(--gen-border-radius);
+    border-radius: var(--gen-border-dash-radius);
     border: 1px solid var(--gen-border-clr);
     background-color: transparent;
     padding: 5px 20px;
@@ -815,13 +818,13 @@ input[type="search"]::-webkit-search-results-decoration {
     justify-content: space-between;
 }
 .unitPlanType .right h2{
-    font-size: 0.99em;
+    font-size: 0.79em;
     font-weight: 400;
     color: var(--dark-text-clr);
     margin-top: auto;
 }
 .unitPlanType .right h2 b{
-    font-size: 1.49em;
+    font-size: 1.39em;
     font-weight: 500;
 }
 .unitPlanType .platformList {
@@ -882,6 +885,7 @@ input[type="search"]::-webkit-search-results-decoration {
     grid-template-columns: 1fr 1fr;
     gap: 12px;
     align-items: center;
+    justify-content: flex-end;
     background-color: inherit;
 }
 .approve_decline button{
@@ -895,7 +899,12 @@ input[type="search"]::-webkit-search-results-decoration {
     font-weight: 400;
     background-color: var(--blur-clr);
 }
-.approve_decline button:nth-child(2){
+.approve_decline button.activate{
+    color: white;
+    background-color: var(--blur-clr);
+    border: 1px solid transparent;
+}
+.approve_decline button.deactivate{
     background-color: transparent;
     border: 1px solid #ff2e2e;
     color: #ff2e2e;

@@ -2,18 +2,23 @@ import Link from "next/link";
 import { currentUser } from '@clerk/nextjs/server';
 import { SignOutButton } from "@clerk/nextjs";
 import { redirect } from "next/navigation";
-import { fetchAllDocuments, onSnapshotWithCondition } from "../db/firestoreService";
+import { fetchAllDocuments, fetchDocumentWithCondition } from "../db/firestoreService";
 
 
 export default async function RootLayout({ children }) {
-    // const user = await currentUser();
+    const user = await currentUser();
+    const userFromDb = await fetchDocumentWithCondition('workers', 'id', `${user?.id}`)
 
     // if (user?.publicMetadata?.admin) {
     //     redirect("/dashboard_admin");
     // }
 
+    if (!userFromDb?.isAdmin) {
+        redirect('/webapp');
+    }
+
     const tasks_from_db = await fetchAllDocuments('requests') || [];
-    // const notifs_from_db =  notifdocument_from_db.filter((elem, idx) => (elem.email === user?.emailAddresses[user?.emailAddresses.length - 1].emailAddress && elem.seen === false));
+    const notifs_from_db =  tasks_from_db.filter(elem => elem?.locationData?.country !== undefined && elem?.locationData?.country !== null);
     return (
         <div className="dashboardGrandCntn">
             
@@ -24,7 +29,7 @@ export default async function RootLayout({ children }) {
                     <Link className="two" href={"/dashboard/clients"}><i className="icofont-users-alt-4"></i>Clients</Link>
                     <Link className="three" href={"/dashboard/workers"}><i className="icofont-workers-group"></i>Workers</Link>
                     <div className="dashExtra">
-                        <Link className="four" href={"/dashboard/tasks"}><i className="icofont-files-stack"></i>Tasks ({tasks_from_db?.length})</Link>
+                        <Link className="four" href={"/dashboard/tasks"}><i className="icofont-files-stack"></i>Tasks ({notifs_from_db?.length})</Link>
                         <div className="bottom">
                             <Link className="five" href={"/dashboard/tasks/completed"}><i className="icofont-tick-mark"></i>Completed</Link>
                             <Link className="six" href={"/dashboard/tasks/active"}><i className="icofont-listine-dots"></i>Active</Link>
@@ -55,7 +60,7 @@ export default async function RootLayout({ children }) {
                         </div>
                     </div>
                     <div className="dashNavProfile">
-                        <img src="/Logo.png" alt="profile picture" />
+                        <img src={`${user?.imageUrl}`} alt="profile picture" />
                         <h3>Admin 1</h3>
                     </div>
                 </div>

@@ -3,22 +3,15 @@ import React from 'react'
 import Nav from './nav'
 import BackButton from './BackButton'
 import Todos from './Todos'
+import HomeAmountDisplay from './HomeAmountDisplay'
+import Header from './Header'
 
-const page = () => {
+const Page = () => {
+
     return (
         <div className='grandVolaraCntn'>
             <div className="volaraCntn">
-                <header className='headerVolara'>
-                    <BackButton></BackButton>
-
-                    <Link href={"/webapp"}>
-                        <img src="/darklogo.png" alt="Volara dark theme logo" />
-                    </Link>
-
-                    <Link href={"/webapp/"}>
-                        <img src="/telegram.png" alt="profile photo" />
-                    </Link>
-                </header>
+                <Header></Header>
 
                 <section className="curentCntn">
                     <div className="fancyDisplay">
@@ -26,14 +19,14 @@ const page = () => {
                         <img src="/coin_large.png" alt="coin" />
                     </div>
                     <div className="homeAmountDisplay">
-                        <h2><img src="/coin.png" alt="coin" /> 36.064 <span>Volara coin</span></h2>
+                        <HomeAmountDisplay></HomeAmountDisplay>
                         <p>Your all time earnings</p>
                         <Link className='fancyCta' href={'/webapp/profile'}>View more</Link>
 
                         <img src="/coin_large.png" alt="coin" />
                     </div>
 
-                    <Todos></Todos>
+                    <Todos isTask={false}></Todos>
                 </section>
 
                 <Nav type={'home'}></Nav>
@@ -42,4 +35,4 @@ const page = () => {
     )
 }
 
-export default page
+export default Page

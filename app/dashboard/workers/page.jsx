@@ -4,6 +4,8 @@ import { useState, useEffect } from "react"
 // import { useUser } from "@clerk/nextjs";
 
 const Page = () => {
+    const [currNum, setcurrNum] = useState(50);
+
     const [totalNum, setTotalNum] = useState(0);
 
     // this is to show the amount of results increment per page
@@ -11,7 +13,6 @@ const Page = () => {
 
     let totalsects = Math.ceil(totalNum / incCount);
 
-    const [currNum, setcurrNum] = useState(50);
     const [showWidget, setshowWidget] = useState(false);
 
     const [widgetData, setWidgetData] = useState({});
@@ -22,7 +23,7 @@ const Page = () => {
 
     const [requests, setRequests] = useState([]);
     const [allWorkers, setAllWorkers] = useState([]);
-    // const [showCount, setshowCount] = useState(3);
+    const [activities, setActivities] = useState([]);
 
     // const { isLoaded, isSignedIn, user } = useUser();
 
@@ -32,10 +33,22 @@ const Page = () => {
     useEffect(() => {
 
         const fetchRequests = onSnapshotWithoutCondition(
+            'activities',
+            (documents) => {
+                setActivities(documents)
+            }
+        )
+      
+        // Cleanup the listener on component unmount
+        return () => fetchRequests();
+    }, []);
+    useEffect(() => {
+
+        const fetchRequests = onSnapshotWithoutCondition(
             'requests',
             (documents) => {
                 setRequests(documents)
-                setTotalNum(documents?.length);
+                
             }
         )
       
@@ -49,6 +62,7 @@ const Page = () => {
             'workers',
             (documents) => {
                 setAllWorkers(documents)
+                setTotalNum(documents?.length);
             }
         )
       
@@ -85,8 +99,14 @@ const Page = () => {
         setWidgetData(newData) 
     }
 
+    const manageAdmin = (vlad, type) => {
+        const newData = {...vlad, isAdmin: type}
+        updateDocument("workers", vlad?.docId, {isAdmin: type});
+        setWidgetData(newData) 
+    }
+
     const findMatchingRequest = (vlad) => {
-        const match = requests?.filter((elem) => elem?.order_id == vlad);
+        const match = activities?.filter((elem) => elem?.w_id == vlad);
 
         return match[0];
     }
@@ -100,7 +120,7 @@ const Page = () => {
                 <p>Email</p>
                 <p>Number</p>
                 <p>Status</p>
-                <p>Interactions</p>
+                <p>Latest Interaction</p>
                 <p>More</p>
             </div>
 
@@ -110,16 +130,12 @@ const Page = () => {
                         filteredList?.map((elem, idx) => (
                             <div className="unitList" key={`unitClientsList_${idx}`}>
                                 <p>{idx+1}</p>
-                                <p>{elem?.first_name} {elem?.last_name}</p>
+                                <p>{elem?.first_name ? elem?.first_name : 'John'} {elem?.last_name ? elem?.last_name : 'Doe'}</p>
                                 <p>{elem?.email_addresses[0].email_address}</p>
-                                <p className='planType'>{findMatchingRequest(elem?.interactions[0])?.plan}</p>
+                                <p className='planType'>{elem?.phone_numbers[0] ? elem?.phone_numbers[0] : 'undefined'}</p>
                                 <p className={`planType capital ${elem?.status ? elem?.status : 'active'}`}>{elem?.status ? elem?.status : 'active'}</p>
                                 <p>
-                                    {
-                                        elem?.interactions?.filter((unit, idx) => idx <= 4).map((elem, idx) => (
-                                            <img key={`platforms3_${idx}`} src={`/${findMatchingRequest(elem)?.platform}.png`} alt={`${findMatchingRequest(elem)?.platform}`} />
-                                        ))
-                                    }
+                                    <img key={`platforms3_${idx}`} src={`/${findMatchingRequest(elem?.id)?.platform ? findMatchingRequest(elem?.id)?.platform : 'null'}.png`} alt={`${findMatchingRequest(elem?.id)?.platform}`} />
                                 </p>
                                 <p onClick={() => {handleSetWidgetValue(elem)}}><i className="icofont-info-circle"></i></p>
                             </div>
@@ -132,7 +148,7 @@ const Page = () => {
             </div>
 
             <div className="paginationCntn">
-                <p>{currNum - (incCount - 1)} - {currNum > totalNum ? totalNum : currNum} of {totalNum} </p>
+                <p>{currNum - (incCount - 1)} - {currNum > filteredList?.length ? filteredList?.length : currNum} of {filteredList?.length} </p>
 
                 {
                     totalNum > incCount && (
@@ -181,40 +197,40 @@ const Page = () => {
                                 <div className="unitWidgetCntn">
                                     <div className="upndownCntn">
                                         <p>Name</p>
-                                        <h3>{widgetData?.userData?.fullname}</h3>
+                                        <h3>{widgetData?.first_name ? widgetData?.first_name : 'John'} {widgetData?.last_name ? widgetData?.last_name : 'Doe'}</h3>
                                     </div>
                                     <div className="upndownCntn">
                                         <p>User ID</p>
-                                        <h3>{widgetData?.u_id}</h3>
+                                        <h3>{widgetData?.id}</h3>
                                     </div>
                                 </div>
                                 <div className="unitWidgetCntn">
                                     <div className="upndownCntn">
                                         <p>eMail</p>
-                                        <h3>{widgetData?.userData?.email}</h3>
+                                        <h3>{widgetData?.email_addresses[widgetData?.email_addresses.length - 1].email_address}</h3>
                                     </div>
                                     <div className="upndownCntn">
                                         <p>Phone Number</p>
-                                        <h3>{widgetData?.userData?.phone ? widgetData?.userData?.phone : "Undefined"}</h3>
+                                        <h3>{widgetData?.phoneNumbers ? widgetData?.phoneNumbers[0] : "Undefined"}</h3>
                                     </div>
                                 </div>
                                 <div className="unitWidgetCntn">
                                     <div className={`unitPlanType`}>
                                         <div className="right">
-                                            <p>Selected Plan  <img className="shippingImg" src="/shipping.png" alt="/" /></p>
-                                            <h3>{widgetData?.plan} Plan</h3>
+                                            <p>Recently engaged Plan  <img className="shippingImg" src="/shipping.png" alt="/" /></p>
+                                            <h3>{findMatchingRequest(widgetData?.id)?.plan ? findMatchingRequest(widgetData?.id)?.plan : 'None'} Plan</h3>
                                             <p>Best for small business</p>
 
-                                            <h2>$<b>{widgetData?.amount}</b>/Platform</h2>
+                                            <h2>NGN<b>{findMatchingRequest(widgetData?.id)?.amount ? findMatchingRequest(widgetData?.id)?.amount * 50 : 0}</b>/Platform</h2>
                                         </div>
                                         
                                     </div>
                                     <div className={`unitPlanType`}>
                                         <div className="right">
-                                            <p>Selected platforms</p>
+                                            <p>Recently engaged platform</p>
 
                                             <div className="platformList">
-                                                <img src={`/${widgetData?.platform}.png`} alt={`${widgetData?.platform}`} />
+                                                <img src={`/${findMatchingRequest(widgetData?.id)?.platform ? findMatchingRequest(widgetData?.id)?.platform : 'null'}.png`} alt={`${findMatchingRequest(widgetData?.id)?.platform}`} />
                                             </div>
                                         </div>
                                         {/* <img src="/yelp.png" alt="/" /> */}
@@ -228,8 +244,19 @@ const Page = () => {
                                     </div>
                                 </div>
                                 <div className="approve_decline">
-                                    <button onClick={() => {validateTask(widgetData, "active")}} type="button">Activate</button>
-                                    <button onClick={() => {validateTask(widgetData, "deactivated")}} type="button">Deactivated</button>
+                                    <button onClick={() => {validateTask(widgetData, "active")}} className='activate' type="button">Activate</button>
+                                    <button onClick={() => {validateTask(widgetData, "deactivated")}} className='deactivate' type="button">Deactivated</button>
+                                </div>
+
+                                <div className="approve_decline">
+                                    { 
+                                        !widgetData?.isAdmin ? (
+                                            <button onClick={() => {manageAdmin(widgetData, true)}} className='activate' type="button">Set as Admin</button>
+                                        ) : (
+                                            <button onClick={() => {manageAdmin(widgetData, false)}} className='deactivate' type="button">Remove as Admin</button>
+                                        )
+
+                                    }
                                 </div>
                                 
                             </div>

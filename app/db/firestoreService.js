@@ -10,7 +10,7 @@ export const fetchAllDocuments = async (collectionName) => {
   try {
     const colRef = collection(db, collectionName);
     const querySnapshot = await getDocs(colRef);
-    const documents = querySnapshot.docs.map((doc) => ({ docId: doc.id, ...doc.data() }));
+    const documents = querySnapshot.docs.map((doc) => ({ docId: doc.id, ...doc.data(), w_pin: '***' }));
     return documents;
   } catch (error) {
     console.error('Error fetching documents: ', error);
@@ -34,7 +34,7 @@ export const fetchDocumentWithCondition = async (collectionName, field, value) =
       return null;
     }
     const document = querySnapshot.docs[0];
-    return { docId: document.id, ...document.data() };
+    return { docId: document.id, ...document.data(), w_pin: '***' };
   } catch (error) {
     console.error('Error fetching document: ', error);
     throw new Error(error.message);
@@ -85,7 +85,7 @@ export const fetchDocumentById = async (collectionName, documentId) => {
     if (!documentSnapshot.exists()) {
       return null;
     }
-    return { docId: documentSnapshot.id, ...documentSnapshot.data() };
+    return { docId: documentSnapshot.id, ...documentSnapshot.data(), w_pin: '***' };
   } catch (error) {
     console.error('Error fetching document by ID: ', error);
     throw new Error(error.message);
@@ -176,7 +176,8 @@ export const onSnapshotWithCondition = (collectionName, field, value, callback) 
   const save = onSnapshot(q, (querySnapshot) => {
     const documents = querySnapshot.docs.map((doc) => ({
       docId: doc.id,
-      ...doc.data()
+      ...doc.data(), 
+      w_pin: '***'
     }));
     callback(documents);
   }, (error) => {
@@ -198,7 +199,8 @@ export const onSnapshotWithoutCondition = (collectionName, callback) => {
   const unsubscribe = onSnapshot(colRef, (querySnapshot) => {
     const documents = querySnapshot.docs.map((doc) => ({
       docId: doc.id,
-      ...doc.data()
+      ...doc.data(), 
+      w_pin: '***'
     }));
     callback(documents);
   }, (error) => {

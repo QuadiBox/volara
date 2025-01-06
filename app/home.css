@@ -56,6 +56,9 @@
     position: relative;
     padding-top: calc(var(--nav-height) + 50px);
 }
+.grandCntn *{
+    color: var(--dark-text-clr);
+}
 
 .sectionsCntn {
     padding-inline: var(--small-inline-padding);
