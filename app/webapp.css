@@ -53,6 +53,20 @@
     --section-gapping: 3em;
 }
 
+@media screen and (max-width: 600px) {
+    body{
+        --gen-border-radius: 15px;
+    }
+
+    .incomeCntn{
+        gap: 10px;
+    }
+
+    .incomeCntn .unitType p span{
+        display: none;
+    }
+}
+
 .grandVolaraCntn{
     width: 100%;
     background-color: var(--darkbg-clr);
@@ -132,7 +146,7 @@
     display: flex;
     flex-direction: column;
     gap: var(--gen-spacing);
-    padding-inline: var(--the-inline-padding);
+    padding-inline: 10px;
     padding-block: 2em;
 }
 
@@ -424,6 +438,7 @@
     justify-content: center;
     aspect-ratio: 16/8;
     border-radius: 10px;
+    padding: 20px;
 
     isolation: isolate;
     background-size: cover;
@@ -505,6 +520,7 @@
     background-color: var(--light-darkbg-clr);
     background: linear-gradient(to bottom, #3b3b35e1, 40%, #312d2a);
     border-radius: 10px;
+    height: 100%;
 }
 
 .incomeCntn .unitType > img {
@@ -517,6 +533,7 @@
     font-weight: 400;
     font-size: 0.95em;
     color: white;
+    text-align: center;
 }
 .incomeCntn .unitType > p {
     font-weight: 500;
@@ -716,7 +733,7 @@
     margin-left: auto;
 }
 
-.curentCntn .cl-navbar > div:last-child:has( a ) {
+.curentCntn .cl-navbar > div:last-child:has( a ), .curentCntn .cl-footer > div:last-child:has( a ) {
     display: none !important;
 }
 

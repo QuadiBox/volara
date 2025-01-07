@@ -186,7 +186,7 @@ const MainDisplay = () => {
                 const response = await fetch('/api/withdraw', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(formData),
+                    body: JSON.stringify({...formData, currentDbUser: dbUser}),
                 });;
                 setLoading("Withdraw");
                 console.log('withdrawal completed, awaiting status...');

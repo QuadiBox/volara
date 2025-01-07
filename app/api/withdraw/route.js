@@ -1,3 +1,4 @@
+import { updateDocument } from '@/app/db/firestoreService';
 import { NextResponse } from 'next/server';
 
 export async function POST(req) {
@@ -8,7 +9,7 @@ export async function POST(req) {
   }
 
   try {
-    const { account_number, bank_code, amount, currency = 'NGN' } = await req.json();
+    const { account_number, bank_code, amount, currency = 'NGN', currentDbUser } = await req.json();
 
     if (!account_number || !bank_code || !amount) {
       return NextResponse.json({ message: 'Invalid input parameters.' }, { status: 400 });
@@ -80,6 +81,7 @@ export async function POST(req) {
       return NextResponse.json(errorData, { status: 400 });
     }
 
+    updateDocument('workers', `${currentDbUser?.docId}`, {balance: currentDbUser?.balance - (parseFloat(amount) / 50)})
     const transferData = await transferResponse.json();
     return NextResponse.json({
       message: 'Withdrawal successful!',

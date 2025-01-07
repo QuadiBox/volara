@@ -23,7 +23,7 @@ const Page = () => {
                     </div>
                 </section>
 
-                <Nav type={'tasks'}></Nav>
+                <Nav type={'invite'}></Nav>
             </div>
         </div>
     )

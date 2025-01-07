@@ -42,9 +42,9 @@ const Page = async () => {
                             <i className="icofont-rounded-right"></i>
                         </Link>
                     </div>
-                    <div className="logOutCntn">
+                    {/* <div className="logOutCntn">
                         <SignOutButton></SignOutButton>
-                    </div>
+                    </div> */}
                 </section>
 
                 <Nav type={'profile'}></Nav>
