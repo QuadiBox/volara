@@ -54,7 +54,12 @@ const MainDisplay = () => {
             try {
                 if (user?.id) {
                     console.log('user id available');
-                    const pinAvailability = await fetch(`/api/check-pin?id=${user?.id}`);
+
+                    const pincheck = await fetch(`/api/check-pin?id=${user?.id}`);
+                    if (!pincheck.ok) {
+                        throw new Error(`HTTP error! status: ${pincheck.status}`);
+                    }
+                    const pinAvailability = pincheck.json()
                     if (pinAvailability) {
                         setPinAvailable(true)
                         console.log(pinAvailability);
