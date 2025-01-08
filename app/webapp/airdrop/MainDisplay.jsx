@@ -59,7 +59,7 @@ const MainDisplay = () => {
                     if (!pincheck.ok) {
                         throw new Error(`HTTP error! status: ${pincheck.status}`);
                     }
-                    const pinAvailability = pincheck.json()
+                    const pinAvailability = await pincheck.json()
                     if (pinAvailability) {
                         setPinAvailable(true)
                         console.log(pinAvailability);
