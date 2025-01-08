@@ -60,13 +60,11 @@ const MainDisplay = () => {
                         throw new Error(`HTTP error! status: ${pincheck.status}`);
                     }
                     const pinAvailability = await pincheck.json()
-                    if (pinAvailability) {
+                    if (pinAvailability?.status) {
                         setPinAvailable(true)
-                        console.log(pinAvailability);
                         
                     } else {
-                        setPinAvailable(true)
-                        console.log(pinAvailability);
+                        setPinAvailable(false)
                     }
                 } else {
                     console.log('user id not available yet chillax');
