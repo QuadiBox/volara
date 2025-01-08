@@ -240,16 +240,16 @@ const MainDisplay = () => {
         }
 
         // If last box is filled, trigger handleSubmit
+
         if (index === 3 && value) {
             if (vlad !== 'set') {
-                console.log('submitting data now ', newPin);
+                console.log('submitting data now', newPin);
                 handleSubmit();
             } else {
-                updateDocument('workers', dbUser?.docId, {w_pin: pin.join('')})
-                setPin(['', '', '', ''])
-                setPinAvailable(true)
+                updateDocument('workers', dbUser?.docId, { w_pin: newPin.join('') }); // Use newPin instead of pin
+                setPin(['', '', '', '']);
+                setPinAvailable(true);
             }
-            
         }
     };
 
@@ -273,7 +273,7 @@ const MainDisplay = () => {
                 console.log('submitting data now ', newPin);
                 handleSubmit();
             } else {
-                updateDocument('workers', dbUser?.docId, {w_pin: pin.join('')});
+                updateDocument('workers', dbUser?.docId, {w_pin: newPin.join('')});
                 setPin(['', '', '', ''])
                 setPinAvailable(true)
             }
