@@ -1,4 +1,4 @@
-import { updateDocument } from '@/app/db/firestoreService';
+import { addDocument, updateDocument } from '@/app/db/firestoreService';
 import { NextResponse } from 'next/server';
 
 export async function POST(req) {
@@ -81,7 +81,16 @@ export async function POST(req) {
       return NextResponse.json(errorData, { status: 400 });
     }
 
+    const withDrawalDataObject = {
+      amount,
+      date: Date.now(),
+      status: 'completed',
+      type: 'withdrawal',
+      w_id: `${currentDbUser?.id}`
+    }
+
     updateDocument('workers', `${currentDbUser?.docId}`, {balance: currentDbUser?.balance - (parseFloat(amount) / 50)})
+    addDocument('activities', withDrawalDataObject);
     const transferData = await transferResponse.json();
     return NextResponse.json({
       message: 'Withdrawal successful!',

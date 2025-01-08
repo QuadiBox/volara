@@ -71,8 +71,7 @@ const MainDisplay = () => {
             }
         }
 
-        // Cleanup the listener on component unmount
-        return () => fetchRequests();
+        fetchRequests(); // Call the function here
     }, [isLoaded, isSignedIn]);
 
     useEffect(() => {
